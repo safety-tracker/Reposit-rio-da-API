@@ -18,6 +18,9 @@ public class ProvinceInfoResponse {
         this.average_ileso = average_ileso;
         this.most_dangerous_br = most_dangerous_br;
         this.route_infos = route_infos;
+        this.daytime = daytime;
+        this.weather = weather;
+        this.weekday = weekday;
     }
 
     public double getAverage_fatal() {
@@ -51,6 +54,8 @@ public class ProvinceInfoResponse {
     public String getWeekday() {
         return weekday;
     }
+
+
 
     public RouteInfoResponse[] getRoute_infos() {
         return route_infos;

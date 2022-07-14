@@ -31,6 +31,9 @@ public class AnalysisController {
     @RequestMapping(value="/classify", method = RequestMethod.POST)
     public ResponseEntity<ProvinceInfoResponse> classifyEntry(@RequestBody AnalysisInfoEntity info) {
         try {
+            int daytime = Integer.parseInt(info.getHorario());
+            String weekday = info.getDiaDaSemana();
+            String weather = info.getCondicoesMetereologicas();
 
             List<RouteInfoResponse> routeInfos = new ArrayList<>();
 
@@ -88,7 +91,7 @@ public class AnalysisController {
                 }
             }
 
-            ProvinceInfoResponse response = new ProvinceInfoResponse(Integer.parseInt(info.getHorario()), info.getCondicoesMetereologicas(), info.getDiaDaSemana(),averageFatal, averageFerido, averageIleso, dangerous.getBr(), fatalAverage*100D, (RouteInfoResponse[]) routeInfos.toArray(new RouteInfoResponse[0]));
+            ProvinceInfoResponse response = new ProvinceInfoResponse(daytime, weather, weekday,averageFatal, averageFerido, averageIleso, dangerous.getBr(), fatalAverage*100D, (RouteInfoResponse[]) routeInfos.toArray(new RouteInfoResponse[0]));
 
             HttpHeaders headers = new HttpHeaders();
             headers.add("Access-Control-Allow-Origin", "*");
