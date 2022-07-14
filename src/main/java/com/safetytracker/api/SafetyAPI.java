@@ -31,11 +31,6 @@ public class SafetyAPI {
         ProvinceRegistry.setup();
         System.out.printf("Provinces specific data loaded in %.2f milliseconds.\n", System.currentTimeMillis() - mili);
 
-        mili = System.currentTimeMillis();
-        System.out.println("Loading trained ML models...");
-        TrainedModelRegistry.setup();
-        System.out.printf("Loaded ML models in %.2f milliseconds.\n", System.currentTimeMillis() - mili);
-
         SpringApplication.run(SafetyAPI.class, args);
     }
 
