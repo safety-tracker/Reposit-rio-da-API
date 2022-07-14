@@ -13,7 +13,7 @@ public class TrainedModelRegistry {
     public static Map<String, RandomForest> REGISTRY = new HashMap<>();
 
     public static void setup() {
-        Arrays.asList("SP","BA","RJ")
+        Arrays.asList("SP")
                 .forEach(province -> {
                     try {
                         REGISTRY.put(province, (RandomForest) SerializationHelper.read(new ClassPathResource("ml_models/" + province + ".model").getInputStream()));
