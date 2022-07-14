@@ -64,7 +64,7 @@ public class AnalysisController {
                 BRAnalysis analysis = BRAnalysisRegistry.getAnalysisMap().get(route.getEstado()).get(br);
 
                 routeInfos.add(new RouteInfoResponse(br, route.getEstado(),
-                        values[2]*100, values[0]*100, values[1]*100,
+                        route.getCidade(),values[2]*100, values[0]*100, values[1]*100,
                         analysis.getHorarioMaisPerigoso(), analysis.getAcidenteCausaMaisRecorrente().getLeft(),
                         analysis.getTipoMaisFrequente().getLeft(),
                         analysis.getAcidenteMaisRecorrenteEmHorario(Integer.parseInt(info.getHorario())).getLeft(),

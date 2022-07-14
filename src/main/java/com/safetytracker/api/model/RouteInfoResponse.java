@@ -3,6 +3,7 @@ package com.safetytracker.api.model;
 public class RouteInfoResponse {
     private int br;
     private String province;
+    private String countie;
     private double fatal_risk;
     private double ferido_risk;
     private double ileso_risk;
@@ -12,10 +13,11 @@ public class RouteInfoResponse {
     private String common_causa_in_daytime;
     private int secure_daytime;
 
-    public RouteInfoResponse(int br, String province, double fatal_risk, double ferido_risk, double ileso_risk, int dangerous_time, String common_cause, String common_type, String common_causa_in_daytime, int secure_daytime) {
+    public RouteInfoResponse(int br, String province, String countie, double fatal_risk, double ferido_risk, double ileso_risk, int dangerous_time, String common_cause, String common_type, String common_causa_in_daytime, int secure_daytime) {
         this.fatal_risk = fatal_risk;
         this.br = br;
         this.province = province;
+        this.countie = countie;
         this.ferido_risk = ferido_risk;
         this.ileso_risk = ileso_risk;
         this.dangerous_time = dangerous_time;
@@ -23,6 +25,10 @@ public class RouteInfoResponse {
         this.common_type = common_type;
         this.common_causa_in_daytime = common_causa_in_daytime;
         this.secure_daytime = secure_daytime;
+    }
+
+    public String getCountie() {
+        return countie;
     }
 
     public String getProvince() {
