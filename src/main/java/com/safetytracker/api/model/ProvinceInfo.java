@@ -20,7 +20,7 @@ import java.util.*;
 public class ProvinceInfo {
     private String province;
     private static final List<String> POSSIBLE_WEEKDAYS = Arrays.asList("SEGUNDA", "TERCA", "QUARTA", "QUINTA", "SEXTA", "SABADO", "DOMINGO");
-    private static final List<String> POSSIBLE_DAYTIME = Arrays.asList("1","2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23");
+    private static final List<String> POSSIBLE_DAYTIME = Arrays.asList("0","1","2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23");
     private static final List<String> POSSIBLE_WEATHERS = Arrays.asList("CHUVA","SOL","GAROA/CHUVISCO","NEVE","GRANIZO","CEU_CLARO","NEVOEIRO/NEBLINA","NUBLADO","VENTO","IGNORADO");
     private static final List<String> POSSIBLE_LANE_TYPE = Arrays.asList("SIMPLES", "MULTIPLA", "DUPLA");
     private static final List<String> POSSIBLE_LANE_TRACING = Arrays.asList("CURVA","TUNEL","NAO_INFORMADO","CRUZAMENTO","RETA","ROTATORIA","VIADUTO","DESVIO_TEMPORARIO","PONTE","INTERSECAO_DE_VIAS","RETORNO_REGULAMENTADO");

@@ -27,7 +27,7 @@ public class AnalysisInfoEntity {
     }
 
     public String getCondicoesMetereologicas() {
-        return day_phase;
+        return weather;
     }
 
     public String getFaseDia() {
