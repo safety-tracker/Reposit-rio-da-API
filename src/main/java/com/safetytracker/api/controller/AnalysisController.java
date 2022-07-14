@@ -4,6 +4,7 @@ import com.safetytracker.api.analysis.BRAnalysis;
 import com.safetytracker.api.model.*;
 import com.safetytracker.api.registry.BRAnalysisRegistry;
 import com.safetytracker.api.registry.ProvinceRegistry;
+import com.safetytracker.api.registry.TrainedModelRegistry;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,7 @@ public class AnalysisController {
             for(AnalysisRouteEntity route : info.getRoute()) {
                 ProvinceInfo provinceInfo = ProvinceRegistry.REGISTRY.get(route.getEstado());
                 Instances instances = provinceInfo.getDatasetInstances();
-                RandomForest algorithm = (RandomForest) SerializationHelper.read(new ClassPathResource("ml_models/" + provinceInfo.getProvince() + ".model").getInputStream());
+                RandomForest algorithm = TrainedModelRegistry.REGISTRY.get(provinceInfo.getProvince());
                 Instance instance = new DenseInstance(10);
                 instance.setDataset(instances);
                 instance.setValue(0, info.getDiaDaSemana());
