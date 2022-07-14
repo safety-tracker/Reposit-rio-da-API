@@ -100,7 +100,7 @@ public class AnalysisController {
                 }
             }
 
-            ProvinceInfoResponse response = new ProvinceInfoResponse(averageFatal, averageFerido, averageIleso, dangerous.getBr(), fatalAverage*100D, (RouteInfoResponse[]) routeInfos.toArray(new RouteInfoResponse[0]));
+            ProvinceInfoResponse response = new ProvinceInfoResponse(Integer.parseInt(info.getHorario()), info.getCondicoesMetereologicas(), info.getDiaDaSemana(),averageFatal, averageFerido, averageIleso, dangerous.getBr(), fatalAverage*100D, (RouteInfoResponse[]) routeInfos.toArray(new RouteInfoResponse[0]));
 
             HttpHeaders headers = new HttpHeaders();
             headers.add("Access-Control-Allow-Origin", "*");
