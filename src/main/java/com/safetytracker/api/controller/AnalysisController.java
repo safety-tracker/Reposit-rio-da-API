@@ -24,10 +24,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
 @RestController
 public class AnalysisController {
+
+    private static Queue<AnalysisInfoEntity> processingQueue = new LinkedBlockingQueue<>();
+
+    static {
+
+    }
+
 
     @RequestMapping(value="/classify", method = RequestMethod.POST)
     public ResponseEntity<ProvinceInfoResponse> classifyEntry(@RequestBody AnalysisInfoEntity info) {

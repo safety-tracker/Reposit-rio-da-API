@@ -1,17 +1,17 @@
 package com.safetytracker.api.model;
 
 public class AnalysisInfoEntity {
-    private String diaDaSemana;
-    private String horario;
-    private String condicoesMetereologicas;
-    private String faseDia;
+    private String weekday;
+    private String daytime;
+    private String weather;
+    private String day_phase;
     private AnalysisRouteEntity[] route;
 
     public AnalysisInfoEntity(String br, String diaDaSemana, String horario, String condicoesMetereologicas, String faseDia) {
-        this.diaDaSemana = diaDaSemana;
-        this.horario = horario;
-        this.condicoesMetereologicas = condicoesMetereologicas;
-        this.faseDia = faseDia;
+        this.weekday = diaDaSemana;
+        this.daytime = horario;
+        this.weather = condicoesMetereologicas;
+        this.day_phase = faseDia;
     }
 
     public AnalysisRouteEntity[] getRoute() {
@@ -19,18 +19,18 @@ public class AnalysisInfoEntity {
     }
 
     public String getDiaDaSemana() {
-        return diaDaSemana;
+        return weekday;
     }
 
     public String getHorario() {
-        return horario;
+        return daytime;
     }
 
     public String getCondicoesMetereologicas() {
-        return condicoesMetereologicas;
+        return day_phase;
     }
 
     public String getFaseDia() {
-        return faseDia;
+        return day_phase;
     }
 }
