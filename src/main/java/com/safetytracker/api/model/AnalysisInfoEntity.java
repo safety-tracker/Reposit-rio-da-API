@@ -7,11 +7,12 @@ public class AnalysisInfoEntity {
     private String day_phase;
     private AnalysisRouteEntity[] route;
 
-    public AnalysisInfoEntity(String br, String diaDaSemana, String horario, String condicoesMetereologicas, String faseDia) {
-        this.weekday = diaDaSemana;
-        this.daytime = horario;
-        this.weather = condicoesMetereologicas;
-        this.day_phase = faseDia;
+    public AnalysisInfoEntity(String weekday, String daytime, String weather, String day_phase, AnalysisRouteEntity[] route) {
+        this.weekday = weekday;
+        this.route = route;
+        this.daytime = daytime;
+        this.weather = weather;
+        this.day_phase = day_phase;
     }
 
     public AnalysisRouteEntity[] getRoute() {
