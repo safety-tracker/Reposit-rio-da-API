@@ -96,10 +96,11 @@ public class AnalysisController {
                 double currentFatalAverage = (double) current.getFatalAccidents()/current.getAccidentCount();
                 if(currentFatalAverage < incomingFatalAverage) {
                     dangerous = route;
+                    fatalAverage = currentFatalAverage;
                 }
             }
 
-            ProvinceInfoResponse response = new ProvinceInfoResponse(averageFatal, averageFerido, averageIleso, dangerous.getBr(), fatalQuantityInDangerous, (RouteInfoResponse[]) routeInfos.toArray(new RouteInfoResponse[0]));
+            ProvinceInfoResponse response = new ProvinceInfoResponse(averageFatal, averageFerido, averageIleso, dangerous.getBr(), fatalAverage*100D, (RouteInfoResponse[]) routeInfos.toArray(new RouteInfoResponse[0]));
 
             HttpHeaders headers = new HttpHeaders();
             headers.add("Access-Control-Allow-Origin", "*");
