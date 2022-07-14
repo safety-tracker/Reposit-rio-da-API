@@ -38,7 +38,9 @@ public class AnalysisController {
             for(AnalysisRouteEntity route : info.getRoute()) {
                 ProvinceInfo provinceInfo = ProvinceRegistry.REGISTRY.get(route.getEstado());
                 Instances instances = provinceInfo.getDatasetInstances();
-                RandomForest algorithm = TrainedModelRegistry.REGISTRY.get(provinceInfo.getProvince());
+                RandomForest algorithm = TrainedModelRegistry.REGISTRY.containsKey(provinceInfo.getProvince())
+                        ? TrainedModelRegistry.REGISTRY.get(provinceInfo.getProvince())
+                        : (RandomForest) SerializationHelper.read(new ClassPathResource("ml_models/" + provinceInfo.getProvince() + ".model").getInputStream());
                 Instance instance = new DenseInstance(10);
                 instance.setDataset(instances);
                 instance.setValue(0, info.getDiaDaSemana());

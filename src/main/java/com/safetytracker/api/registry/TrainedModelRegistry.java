@@ -13,10 +13,11 @@ public class TrainedModelRegistry {
     public static Map<String, RandomForest> REGISTRY = new HashMap<>();
 
     public static void setup() {
-        Arrays.asList("AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO")
+        Arrays.asList("SP","BA","RJ")
                 .forEach(province -> {
                     try {
                         REGISTRY.put(province, (RandomForest) SerializationHelper.read(new ClassPathResource("ml_models/" + province + ".model").getInputStream()));
+                        System.out.println("Loaded " + province + " ML model successfully.");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

@@ -13,13 +13,13 @@ public class SafetyAPI {
 
     public static void main(String[] args) {
         System.out.println("Checking for model and dataset folders...");
-        File dataset_folder = new File(SafetyAPI.class.getResource("datasets").getFile());
+        File dataset_folder = new File(SafetyAPI.class.getResource("/datasets").getFile());
         if(!dataset_folder.exists()) {
             if(dataset_folder.mkdir()) {
                 System.out.println("Datasets folder created");
             }
         }
-        File models_folder = new File(SafetyAPI.class.getResource("ml_models").getFile());
+        File models_folder = new File(SafetyAPI.class.getResource("/ml_models").getFile());
         if(!models_folder.exists()) {
             if(models_folder.mkdir()) {
                 System.out.println("ML models folder created");
@@ -30,12 +30,12 @@ public class SafetyAPI {
         double mili = System.currentTimeMillis();
         DownloadLinkRegistry.setup();
         ProvinceRegistry.setup();
-        System.out.printf("Provinces specific data loaded in %.2f milliseconds.", System.currentTimeMillis() - mili);
+        System.out.printf("Provinces specific data loaded in %.2f milliseconds.\n", System.currentTimeMillis() - mili);
 
         mili = System.currentTimeMillis();
         System.out.println("Loading trained ML models...");
         TrainedModelRegistry.setup();
-        System.out.printf("Loaded ML models in %.2f milliseconds.", System.currentTimeMillis() - mili);
+        System.out.printf("Loaded ML models in %.2f milliseconds.\n", System.currentTimeMillis() - mili);
 
         SpringApplication.run(SafetyAPI.class, args);
     }
