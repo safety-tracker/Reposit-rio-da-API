@@ -1,6 +1,7 @@
 package com.safetytracker.api.analysis;
 
 import com.safetytracker.api.registry.ProvinceRegistry;
+import com.safetytracker.api.registry.Tuple;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.BufferedReader;
@@ -48,7 +49,7 @@ public class BRAnalysis {
             }
         });
 
-        return new Tuple<String, Integer>(maisRecorrente.get(), qtd[0]);
+        return new Tuple<>(maisRecorrente.get(), qtd[0]);
     }
 
     public Integer getHorarioMaisPerigoso() {
@@ -201,31 +202,4 @@ public class BRAnalysis {
             }
         }
     }
-
-    public static class Tuple<T,U> {
-        private T left;
-        private U right;
-
-        public Tuple(T left, U right) {
-            this.left = left;
-            this.right = right;
-        }
-
-        public T getLeft() {
-            return left;
-        }
-
-        public void setLeft(T left) {
-            this.left = left;
-        }
-
-        public U getRight() {
-            return right;
-        }
-
-        public void setRight(U right) {
-            this.right = right;
-        }
-    }
-
 }
