@@ -4,26 +4,16 @@ import com.safetytracker.api.analysis.BRAnalysis;
 import com.safetytracker.api.model.*;
 import com.safetytracker.api.registry.BRAnalysisRegistry;
 import com.safetytracker.api.registry.ProvinceRegistry;
-import com.safetytracker.api.registry.TrainedModelRegistry;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import weka.classifiers.trees.RandomForest;
-import weka.classifiers.trees.RandomTree;
 import weka.core.*;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
@@ -47,9 +37,7 @@ public class AnalysisController {
             for(AnalysisRouteEntity route : info.getRoute()) {
                 ProvinceInfo provinceInfo = ProvinceRegistry.REGISTRY.get(route.getEstado());
                 Instances instances = provinceInfo.getDatasetInstances();
-                RandomForest algorithm = TrainedModelRegistry.REGISTRY.containsKey(provinceInfo.getProvince())
-                        ? TrainedModelRegistry.REGISTRY.get(provinceInfo.getProvince())
-                        : (RandomForest) SerializationHelper.read(new ClassPathResource("ml_models/" + provinceInfo.getProvince() + ".model").getInputStream());
+                RandomForest algorithm = (RandomForest) SerializationHelper.read(new ClassPathResource("ml_models/" + provinceInfo.getProvince() + ".model").getInputStream());
                 Instance instance = new DenseInstance(10);
                 instance.setDataset(instances);
                 instance.setValue(0, info.getDiaDaSemana());

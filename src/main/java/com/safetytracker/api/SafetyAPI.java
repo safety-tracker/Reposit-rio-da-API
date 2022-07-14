@@ -2,7 +2,6 @@ package com.safetytracker.api;
 
 import com.safetytracker.api.registry.DownloadLinkRegistry;
 import com.safetytracker.api.registry.ProvinceRegistry;
-import com.safetytracker.api.registry.TrainedModelRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
