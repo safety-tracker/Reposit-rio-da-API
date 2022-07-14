@@ -82,11 +82,8 @@ public class ProvinceInfo {
         Attribute municipio = new Attribute("municipio", new ArrayList<>(POSSIBLE_COUNTIES));
         Attribute classificacao = new Attribute("classificacao", POSSIBLE_CLASSIFICATIONS);
         Attribute fase_dia = new Attribute("fase_dia", POSSIBLE_DAY_PHASE);
-        Attribute sentido_via = new Attribute("sentido_via", POSSIBLE_DIRECTIONS);
         Attribute condicao_metereologica = new Attribute("condicao_metereologica", POSSIBLE_WEATHERS);
-        Attribute tipo_pista = new Attribute("tipo_pista", POSSIBLE_LANE_TYPE);
-        Attribute tracado = new Attribute("tracado", POSSIBLE_LANE_TRACING);
-        attributes.addAll(Arrays.asList(diaSemana, horario, br, municipio, classificacao, fase_dia, sentido_via, condicao_metereologica, tipo_pista, tracado));
+        attributes.addAll(Arrays.asList(diaSemana, horario, br, municipio, classificacao, fase_dia, condicao_metereologica));
 
         Instances dataset = new Instances("TestSet", attributes, 1);
         dataset.setClassIndex(4);

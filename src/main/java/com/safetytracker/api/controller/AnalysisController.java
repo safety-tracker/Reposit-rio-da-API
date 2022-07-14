@@ -31,37 +31,64 @@ public class AnalysisController {
     @RequestMapping(value="/classify", method = RequestMethod.POST)
     public ResponseEntity<ProvinceInfoResponse> classifyEntry(@RequestBody AnalysisInfoEntity info) {
         try {
-            ProvinceInfo provinceInfo = ProvinceRegistry.REGISTRY.get(info.getEstado());
-            provinceInfo.loadSpecificData();
-            Instances instances = provinceInfo.getDatasetInstances();
 
-            RandomForest algorithm = (RandomForest) SerializationHelper.read(new ClassPathResource("ml_models/" + provinceInfo.getProvince() + ".model").getInputStream());
-            Instance instance = new DenseInstance(10);
-            instance.setDataset(instances);
-            instance.setValue(0, info.getDiaDaSemana());
-            instance.setValue(1, info.getHorario());
-            instance.setValue(2, info.getBr());
-            instance.setValue(3, info.getCidade());
-            instance.setValue(5, info.getFaseDia());
-            instance.setValue(6, info.getSentidoVia());
-            instance.setValue(7, info.getCondicoesMetereologicas());
-            instance.setValue(8, info.getTipoPista());
-            instance.setValue(9, info.getTracadoVia());
-            double[] values = algorithm.distributionForInstance(instance);
+            List<RouteInfoResponse> routeInfos = new ArrayList<>();
 
-            int horario = Integer.parseInt(info.getHorario());
-            BRAnalysis analiseDaBr = BRAnalysisRegistry.getAnalysisMap().get(info.getEstado()).get(Integer.parseInt(info.getBr()));
+            for(AnalysisRouteEntity route : info.getRoute()) {
+                ProvinceInfo provinceInfo = ProvinceRegistry.REGISTRY.get(route.getEstado());
+                Instances instances = provinceInfo.getDatasetInstances();
+                RandomForest algorithm = (RandomForest) SerializationHelper.read(new ClassPathResource("ml_models/" + provinceInfo.getProvince() + ".model").getInputStream());
+                Instance instance = new DenseInstance(10);
+                instance.setDataset(instances);
+                instance.setValue(0, info.getDiaDaSemana());
+                instance.setValue(1, info.getHorario());
+                instance.setValue(2, route.getBr());
+                instance.setValue(3, route.getCidade());
+                instance.setValue(5, info.getFaseDia());
+                instance.setValue(6, info.getCondicoesMetereologicas());
+                double[] values = algorithm.distributionForInstance(instance);
 
-            ProvinceInfoResponse response = new ProvinceInfoResponse(
-                    values[2]*100, values[0]*100, values[1]*100,
-                    ProvinceRegistry.BR_MAIS_PERIGOSA.get(info.getEstado()),
-                    ProvinceRegistry.HORARIO_MAIS_PERIGOSO.get(info.getEstado()),
-                    analiseDaBr.getAcidenteCausaMaisRecorrente().getLeft(),
-                    analiseDaBr.getTipoMaisFrequente().getLeft(),
-                    analiseDaBr.getAcidenteMaisRecorrenteEmHorario(horario).getLeft(),
-                    analiseDaBr.getHorarioMaisPerigoso(),
-                    analiseDaBr.getHorarioMaisSeguro()
-            );
+                int br = Integer.parseInt(route.getBr());
+                BRAnalysis analysis = BRAnalysisRegistry.getAnalysisMap().get(route.getEstado()).get(br);
+
+                routeInfos.add(new RouteInfoResponse(br, route.getEstado(),
+                        values[2]*100, values[0]*100, values[1]*100,
+                        analysis.getHorarioMaisPerigoso(), analysis.getAcidenteCausaMaisRecorrente().getLeft(),
+                        analysis.getTipoMaisFrequente().getLeft(),
+                        analysis.getAcidenteMaisRecorrenteEmHorario(Integer.parseInt(info.getHorario())).getLeft(),
+                        analysis.getHorarioMaisSeguro()));
+            }
+
+            double averageFatal = routeInfos.stream()
+                    .map(RouteInfoResponse::getFatal_risk)
+                    .reduce(0D, Double::sum)/routeInfos.size();
+            double averageIleso = routeInfos.stream()
+                    .map(RouteInfoResponse::getIleso_risk)
+                    .reduce(0D, Double::sum)/routeInfos.size();
+            double averageFerido = routeInfos.stream()
+                    .map(RouteInfoResponse::getFerido_risk)
+                    .reduce(0D, Double::sum)/routeInfos.size();
+
+            RouteInfoResponse dangerous = routeInfos.get(0);
+            double fatalAverage = 0;
+            int fatalQuantityInDangerous = 0;
+            for(RouteInfoResponse route : routeInfos) {
+                BRAnalysis current = BRAnalysisRegistry.getAnalysisMap().get(dangerous.getProvince()).get(dangerous.getBr());
+                BRAnalysis incoming = BRAnalysisRegistry.getAnalysisMap().get(route.getProvince()).get(route.getBr());
+                double incomingFatalAverage = (double) incoming.getFatalAccidents()/incoming.getAccidentCount();
+                if(current.equals(incoming)) {
+                    fatalQuantityInDangerous = current.getFatalAccidents();
+                    fatalAverage = incomingFatalAverage;
+                    continue;
+                }
+                double currentFatalAverage = (double) current.getFatalAccidents()/current.getAccidentCount();
+                if(currentFatalAverage < incomingFatalAverage) {
+                    dangerous = route;
+                }
+            }
+
+            ProvinceInfoResponse response = new ProvinceInfoResponse(averageFatal, averageFerido, averageIleso, dangerous.getBr(), fatalQuantityInDangerous, (RouteInfoResponse[]) routeInfos.toArray(new RouteInfoResponse[0]));
+
             HttpHeaders headers = new HttpHeaders();
             headers.add("Access-Control-Allow-Origin", "*");
             headers.add("Access-Control-Allow-Methods", "GET");

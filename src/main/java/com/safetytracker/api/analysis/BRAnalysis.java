@@ -15,15 +15,19 @@ public class BRAnalysis {
 
     private int br;
     private String province;
+    private int accidentCount = 0;
+    private int fatalAccidents = 0;
+    private int feridoAccidents = 0;
+    private int ilesoAccidents = 0;
     private HashMap<Integer, Integer> acidentByDaytime = new HashMap<>();
-    private HashMap<String, Integer> accidentTypeRelation = new HashMap<>();
+    private HashMap<String, Integer> accidentTypeQuantity = new HashMap<>();
     private Map<Integer, HashMap<String, Integer>> accidentTypeByDaytime = new HashMap<>();
-    private HashMap<String, Integer> accidentCauses = new HashMap<>();
+    private HashMap<String, Integer> accidentCausesQuantity = new HashMap<>();
 
     public Tuple<String, Integer> getAcidenteCausaMaisRecorrente() {
         final int[] qtd = {0};
         AtomicReference<String> maisRecorrente = new AtomicReference<>();
-        accidentCauses.forEach((x,y) -> {
+        accidentCausesQuantity.forEach((x,y) -> {
             if(y > qtd[0]) {
                 qtd[0] = y;
                 maisRecorrente.set(x);
@@ -81,7 +85,7 @@ public class BRAnalysis {
     public Tuple<String, Integer> getTipoMaisFrequente() {
         final int[] qtd = {0};
         AtomicReference<String> maisRecorrente = new AtomicReference<>();
-        accidentTypeRelation.forEach((x,y) -> {
+        accidentTypeQuantity.forEach((x,y) -> {
             if(y > qtd[0]) {
                 qtd[0] = y;
                 maisRecorrente.set(x);
@@ -100,6 +104,22 @@ public class BRAnalysis {
         }
     }
 
+    public int getFatalAccidents() {
+        return fatalAccidents;
+    }
+
+    public int getFeridoAccidents() {
+        return feridoAccidents;
+    }
+
+    public int getIlesoAccidents() {
+        return ilesoAccidents;
+    }
+
+    public int getAccidentCount() {
+        return accidentCount;
+    }
+
     public void load() {
         System.out.println("Loading specific data for province " + province + "" + br);
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(new ClassPathResource("datasets/" + province + ".arff").getInputStream()))) {
@@ -116,28 +136,35 @@ public class BRAnalysis {
                     int horario = Integer.parseInt(data[1]);
                     String cause = data[4];
                     String type = data[5];
+                    String classification = data[6];
+
+                    accidentCount++;
+
+                    if(classification.equalsIgnoreCase("COM_VITIMAS_FERIDAS")) feridoAccidents++;
+                    if(classification.equalsIgnoreCase("SEM_VITIMAS")) ilesoAccidents++;
+                    if(classification.equalsIgnoreCase("COM_VITIMAS_FATAIS")) fatalAccidents++;
 
                     int acidentesCount = acidentByDaytime.get(horario);
                     acidentesCount++;
                     acidentByDaytime.remove(horario);
                     acidentByDaytime.put(horario, acidentesCount);
 
-                    if(!accidentTypeRelation.containsKey(type)) {
-                        accidentTypeRelation.put(type, 1);
+                    if(!accidentTypeQuantity.containsKey(type)) {
+                        accidentTypeQuantity.put(type, 1);
                     } else {
-                        int accidentTypeCount = accidentTypeRelation.get(type);
+                        int accidentTypeCount = accidentTypeQuantity.get(type);
                         accidentTypeCount++;
-                        accidentTypeRelation.remove(type);
-                        accidentTypeRelation.put(type, accidentTypeCount);
+                        accidentTypeQuantity.remove(type);
+                        accidentTypeQuantity.put(type, accidentTypeCount);
                     }
 
-                    if(!accidentCauses.containsKey(cause)) {
-                        accidentCauses.put(cause, 1);
+                    if(!accidentCausesQuantity.containsKey(cause)) {
+                        accidentCausesQuantity.put(cause, 1);
                     } else {
-                        int accidentCauseCount = accidentCauses.get(cause);
+                        int accidentCauseCount = accidentCausesQuantity.get(cause);
                         accidentCauseCount++;
-                        accidentCauses.remove(cause);
-                        accidentCauses.put(cause, accidentCauseCount);
+                        accidentCausesQuantity.remove(cause);
+                        accidentCausesQuantity.put(cause, accidentCauseCount);
                     }
 
                     HashMap<String, Integer> causasNoHorario = accidentTypeByDaytime.get(horario);

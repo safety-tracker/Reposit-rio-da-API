@@ -1,67 +1,39 @@
 package com.safetytracker.api.model;
 
 public class ProvinceInfoResponse {
-    private double riscoFatal;
-    private double riscoFerido;
-    private double riscoIleso;
-    private int dangerousBr;
-    private int dangerousTime;
-    private String causaMaisComum;
-    private String tipoMaisComum;
-    private String tipoDeAcidenteMaisRecorente;
-    private int horarioMaisPerigoso;
-    private int horarioMaisSeguro;
+    private double average_fatal;
+    private double average_ferido;
+    private double average_ileso;
+    private int most_dangerous_br;
+    private int fatal_accidents_in_most_dangerous_br;
+    private RouteInfoResponse[] route_infos;
 
-    public ProvinceInfoResponse(double riscoFatal, double riscoFerido, double riscoIleso, int dangerousBr, int dangerousTime, String causaMaisComum, String tipoMaisComum, String tipoDeAcidenteMaisRecorente, int horarioMaisPerigoso, int horarioMaisSeguro) {
-        this.riscoFatal = riscoFatal;
-        this.riscoFerido = riscoFerido;
-        this.riscoIleso = riscoIleso;
-        this.dangerousBr = dangerousBr;
-        this.dangerousTime = dangerousTime;
-        this.causaMaisComum = causaMaisComum;
-        this.tipoMaisComum = tipoMaisComum;
-        this.tipoDeAcidenteMaisRecorente = tipoDeAcidenteMaisRecorente;
-        this.horarioMaisPerigoso = horarioMaisPerigoso;
-        this.horarioMaisSeguro = horarioMaisSeguro;
+    public ProvinceInfoResponse(double average_fatal, double average_ferido, double average_ileso, int most_dangerous_br, int fatal_accidents_in_most_dangerous_br, RouteInfoResponse[] route_infos) {
+        this.average_fatal = average_fatal;
+        this.fatal_accidents_in_most_dangerous_br = fatal_accidents_in_most_dangerous_br;
+        this.average_ferido = average_ferido;
+        this.average_ileso = average_ileso;
+        this.most_dangerous_br = most_dangerous_br;
+        this.route_infos = route_infos;
     }
 
-    public String getCausaMaisComum() {
-        return causaMaisComum;
+    public double getAverage_fatal() {
+        return average_fatal;
     }
 
-    public String getTipoMaisComum() {
-        return tipoMaisComum;
+    public double getAverage_ferido() {
+        return average_ferido;
     }
 
-    public String getTipoDeAcidenteMaisRecorente() {
-        return tipoDeAcidenteMaisRecorente;
+    public double getAverage_ileso() {
+        return average_ileso;
     }
 
-    public int getHorarioMaisPerigoso() {
-        return horarioMaisPerigoso;
+    public int getMost_dangerous_br() {
+        return most_dangerous_br;
     }
 
-    public int getHorarioMaisSeguro() {
-        return horarioMaisSeguro;
-    }
-
-    public double getRiscoFatal() {
-        return riscoFatal;
-    }
-
-    public double getRiscoFerido() {
-        return riscoFerido;
-    }
-
-    public double getRiscoIleso() {
-        return riscoIleso;
-    }
-
-    public int getDangerousBr() {
-        return dangerousBr;
-    }
-
-    public int getDangerousTime() {
-        return dangerousTime;
+    public RouteInfoResponse[] getRoute_infos() {
+        return route_infos;
     }
 }
